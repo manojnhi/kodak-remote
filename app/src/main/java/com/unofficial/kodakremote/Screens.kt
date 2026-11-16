@@ -163,6 +163,7 @@ fun CompatScreen(vm: AppViewModel, onBack: () -> Unit, onPair: () -> Unit, onUse
             } else {
                 InfoCard(stringResource(R.string.compat_unsupported), Color(0xFF4A1A1A))
             }
+            if (c.detail.isNotEmpty()) Text(c.detail, color = Muted, fontSize = 12.sp)
             OutlinedButton(onClick = onUseIr, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.use_ir))
             }
@@ -296,6 +297,7 @@ private fun PairDialog(vm: AppViewModel, pair: PairUi) {
                     }
                     PairStage.Failed -> {
                         Text(stringResource(pair.errorRes ?: R.string.err_network))
+                        if (pair.detail.isNotEmpty()) Text(pair.detail, color = Muted, fontSize = 12.sp)
                         Text(stringResource(R.string.compat_unsupported), color = Warn)
                     }
                     else -> {}

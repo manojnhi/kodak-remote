@@ -29,11 +29,17 @@ data class CompatState(
     val ir: Check = Check.Pending,
     val wifiPossible: Boolean = false,
     val host: String? = null,
+    val detail: String = "",
 )
 
 enum class PairStage { Idle, Starting, AwaitCode, Verifying, Done, Failed }
 
-data class PairUi(val stage: PairStage = PairStage.Idle, val host: String = "", val errorRes: Int? = null)
+data class PairUi(
+    val stage: PairStage = PairStage.Idle,
+    val host: String = "",
+    val errorRes: Int? = null,
+    val detail: String = "",
+)
 
 class AppViewModel(app: Application) : AndroidViewModel(app) {
     private val prefs = Prefs(app)
@@ -147,7 +153,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                 pairing.begin(host, "Kodak Remote (Unofficial)")
                 pair.value = PairUi(PairStage.AwaitCode, host)
             } catch (e: PairingException) {
-                pair.value = PairUi(PairStage.Failed, host, e.res)
+                pair.value = PairUi(PairStage.Failed, host, e.res, e.detail)
             }
         }
     }
@@ -162,7 +168,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                 prefs.set(PK.tvName, pendingName ?: host)
                 pair.value = PairUi(PairStage.Done, host)
             } catch (e: PairingException) {
-                pair.value = PairUi(PairStage.Failed, host, e.res)
+                pair.value = PairUi(PairStage.Failed, host, e.res, e.detail)
             }
         }
     }
@@ -199,11 +205,16 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             compat.value = c
 
             var portsOk = false
+            var p1 = false
+            var p2 = false
             if (wifi && host != null) {
-                portsOk = Net.canConnect(host, 6466) && Net.canConnect(host, 6467)
+                p1 = Net.canConnect(host, 6466)
+                p2 = Net.canConnect(host, 6467)
+                portsOk = p1 && p2
             }
-            c = c.copy(ports = if (portsOk) Check.Ok else Check.Fail, ir = if (ir.available) Check.Ok else Check.Fail)
-            compat.value = c.copy(running = false, done = true, wifiPossible = wifi && host != null && portsOk)
+            val info = "wifi=$wifi host=$host port6466=$p1 port6467=$p2 services=" + discovery.devices.value.size
+            c = c.copy(ports = if (portsOk) Check.Ok else Check.Fail, ir = if (ir.available) Check.Ok else Check.Fail, detail = info)
+            compat.value = c.copy(running = false, done = true, wifiPossible = wifi && host != null && portsOk, detail = info)
         }
     }
 
