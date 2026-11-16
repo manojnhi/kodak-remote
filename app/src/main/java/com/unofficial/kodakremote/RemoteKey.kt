@@ -1,0 +1,47 @@
+package com.unofficial.kodakremote
+
+import androidx.annotation.StringRes
+
+/** Android TV key codes (android.view.KeyEvent) used by the Wi-Fi remote protocol. */
+enum class RemoteKey(val androidCode: Int, val label: String, @StringRes val desc: Int) {
+    POWER(26, "", R.string.key_power),
+    MUTE(164, "MUTE", R.string.key_mute),
+    SOURCE(178, "INPUT", R.string.key_source),
+    HOME(3, "HOME", R.string.key_home),
+    BACK(4, "BACK", R.string.key_back),
+    MENU(82, "MENU", R.string.key_menu),
+    SETTINGS(176, "SET", R.string.key_settings),
+    UP(19, "▲", R.string.key_up),
+    DOWN(20, "▼", R.string.key_down),
+    LEFT(21, "◀", R.string.key_left),
+    RIGHT(22, "▶", R.string.key_right),
+    OK(23, "OK", R.string.key_ok),
+    VOL_UP(24, "+", R.string.key_vol_up),
+    VOL_DOWN(25, "−", R.string.key_vol_down),
+    CH_UP(166, "+", R.string.key_ch_up),
+    CH_DOWN(167, "−", R.string.key_ch_down),
+    PLAY_PAUSE(85, "▶ II", R.string.key_play_pause),
+    REWIND(89, "◀◀", R.string.key_rewind),
+    FFWD(90, "▶▶", R.string.key_ffwd),
+    PREV(88, "|◀", R.string.key_prev),
+    NEXT(87, "▶|", R.string.key_next),
+    N0(7, "0", R.string.key_n0),
+    N1(8, "1", R.string.key_n1),
+    N2(9, "2", R.string.key_n2),
+    N3(10, "3", R.string.key_n3),
+    N4(11, "4", R.string.key_n4),
+    N5(12, "5", R.string.key_n5),
+    N6(13, "6", R.string.key_n6),
+    N7(14, "7", R.string.key_n7),
+    N8(15, "8", R.string.key_n8),
+    N9(16, "9", R.string.key_n9),
+    RED(183, "", R.string.key_red),
+    GREEN(184, "", R.string.key_green),
+    YELLOW(185, "", R.string.key_yellow),
+    BLUE(186, "", R.string.key_blue),
+    INFO(165, "INFO", R.string.key_info),
+    GUIDE(172, "GUIDE", R.string.key_guide),
+    EXIT(111, "EXIT", R.string.key_exit),
+    SUBTITLE(175, "CC", R.string.key_subtitle),
+    AUDIO(222, "AUDIO", R.string.key_audio);
+}
