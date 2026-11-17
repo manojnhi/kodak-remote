@@ -61,6 +61,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     private var pendingName: String? = null
 
     init {
+        Tls.init(app)
         // Online/offline polling + auto-connect for the paired TV (local network only).
         viewModelScope.launch {
             settings.filterNotNull().map { it.tvHost }.distinctUntilChanged().collectLatest { host ->
